@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import Apollo
 import RickAndMortyGraphQLSchema
 import Dependencies
 
@@ -18,83 +17,98 @@ struct PageInfo {
     let prev:Int?
 }
 
-/*
- "count": 826
- "pages": 42
- "next": 17
- "prev": 15
- */
-
 enum FetchCharactersResult: Error {
     case success([СharacterRepresentation], Int?)
-    case failed(String)
+    case failed(String?)
 }
 
 class NetworkManager {
     
     private let urlString = "https://rickandmortyapi.com/graphql"
     
-    private var apollo:ApolloClient?
-    
-    init() {
-        if let url = URL(string: urlString) {
-            self.apollo = ApolloClient(url: url)
-        }
-    }
-    
     func fetchCharacters(for page:Int, includePageInfo:Bool = false) async -> FetchCharactersResult {
         
-        guard let apollo = self.apollo else {
-            return .failed("No service")
+        
+        guard let url = URL(string: urlString) else {
+            return .failed(nil)
         }
         
+        
+        let query = """
+        query Characters($page: Int!, $includePageInfo: Boolean!) {
+            characters(page: $page) {
+                results {
+                    id
+                    name
+                    image
+                    status
+                    gender
+                }
+                info @include(if: $includePageInfo) {
+                    pages
+                }
+            }
+        }
+        """
+
+        let requestBody: [String: Any] = [
+            "query": query,
+            "variables": [
+                "page": page,
+                "includePageInfo": includePageInfo
+            ]
+        ]
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
+
         return await withCheckedContinuation { continuation in
-            apollo.fetch(query: CharactersQuery(page: page, includePageInfo: includePageInfo)) { result in
-                switch result {
-                case .success(let graphQLResult):
-                    
-                    if let results = graphQLResult.data?.characters?.results {
-                        let characters = results.compactMap { result in
-                            if let result = result {
-                                return СharacterRepresentation(data: result)
-                            } else {
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    continuation.resume(returning:.failed(error.localizedDescription))
+                    return
+                }
+                
+                guard let data = data else {
+                    continuation.resume(returning:.failed(nil))
+                    return
+                }
+                
+                do {
+                    if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        
+                        if let data = jsonResponse["data"] as? [String: Any],
+                           let characters = data["characters"] as? [String: Any],
+                           let results = characters["results"] as? [[String: Any]] {
+                            
+                            let result = results.compactMap { data in
+                                if let data = data as? [String: String] {
+                                    return СharacterRepresentation(data: data)
+                                }
                                 return nil
                             }
+                            
+                            if includePageInfo, let info = characters["info"] as? [String: Any] {
+                                continuation.resume(returning: .success(result, nil))
+                                return
+                            }
+                            continuation.resume(returning: .success(result, nil))
                         }
                         
-                        print("Success! Result: \(characters)")
-                        continuation.resume(returning: .success(characters, graphQLResult.data?.characters?.info?.pages))
-                    } else {
-                        continuation.resume(returning: .success([], nil))
                     }
-                    
-                case .failure(let error):
-                    continuation.resume(returning:.failed(error.localizedDescription))
+                } catch {
+                    continuation.resume(returning:.failed(nil))
+                    return
                 }
             }
+            
+            task.resume()
         }
     }
-    
-    /*func fetchCharacters() async -> [СharacterRepresentation] {
-        
-        guard let apollo = self.apollo else {
-            return []
-        }
-        
-        return try await withCheckedThrowingContinuation { continuation in
-            apollo.fetch(query: CharactersQuery()) { result in
-                switch result {
-                case .success(let graphQLResult):
-                    continuation.resume(returning: graphQLResult)
-                    //print("Success! Result: \(graphQLResult)")
-                case .failure(let error):
-                    continuation.resume(returning: data)
-                    //print("Failure! Error: \(error)")
-                }
-            }
-        }
-        return []
-    }*/
+
 }
 
 extension NetworkManager: DependencyKey {

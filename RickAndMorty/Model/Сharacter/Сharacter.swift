@@ -14,12 +14,14 @@ struct СharacterRepresentation: Equatable, Identifiable {
     var name: String?
     var gender: String?
     let status: String?
+    let image: String?
     
-    init(data: CharactersQuery.Data.Characters.Result) {
-        self.id = data.id
-        self.name = data.name
-        self.gender = data.gender
-        self.status = data.status
+    init(data: [String : String]) {
+        self.id = data["id"]
+        self.image = data["image"]
+        self.name = data["name"]
+        self.gender = data["status"]
+        self.status = data["id"]
     }
     
 }
