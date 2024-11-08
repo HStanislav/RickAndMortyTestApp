@@ -10,13 +10,6 @@ import SwiftUI
 import RickAndMortyGraphQLSchema
 import Dependencies
 
-struct PageInfo {
-    let count:Int?
-    let pages:Int?
-    let next:Int?
-    let prev:Int?
-}
-
 enum FetchCharactersResult: Error {
     case success([СharacterRepresentation], Int?)
     case failed(String?)
@@ -27,7 +20,6 @@ class NetworkManager {
     private let urlString = "https://rickandmortyapi.com/graphql"
     
     func fetchCharacters(for page:Int, includePageInfo:Bool = false) async -> FetchCharactersResult {
-        
         
         guard let url = URL(string: urlString) else {
             return .failed(nil)
@@ -91,13 +83,12 @@ class NetworkManager {
                                 return nil
                             }
                             
-                            if includePageInfo, let info = characters["info"] as? [String: Any] {
+                            if includePageInfo, let info = characters["info"] as? [String: Int], let pagesCount = info["pages"] {
+                                continuation.resume(returning: .success(result, pagesCount))
+                            } else {
                                 continuation.resume(returning: .success(result, nil))
-                                return
                             }
-                            continuation.resume(returning: .success(result, nil))
                         }
-                        
                     }
                 } catch {
                     continuation.resume(returning:.failed(nil))
