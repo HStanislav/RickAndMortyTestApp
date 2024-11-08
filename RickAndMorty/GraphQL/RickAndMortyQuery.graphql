@@ -1,12 +1,15 @@
 
-query Characters {
-    characters {
+query Characters($page: Int!, $includePageInfo: Boolean!) {
+    characters(page: $page) {
         results {
+            id
             name
             image
             status
             gender
         }
+        info @include(if: $includePageInfo) {
+            pages
+        }
     }
 }
-

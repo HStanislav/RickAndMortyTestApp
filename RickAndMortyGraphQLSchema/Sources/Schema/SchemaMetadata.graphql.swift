@@ -23,6 +23,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "Query": return RickAndMortyGraphQLSchema.Objects.Query
     case "Characters": return RickAndMortyGraphQLSchema.Objects.Characters
     case "Character": return RickAndMortyGraphQLSchema.Objects.Character
+    case "Info": return RickAndMortyGraphQLSchema.Objects.Info
     default: return nil
     }
   }

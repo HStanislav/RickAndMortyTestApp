@@ -6,10 +6,17 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct ContentView: View {
     var body: some View {
-        CharactersListView()
+        CharactersListView(
+            store: Store(
+                initialState:СharactersListFeature.State(),
+                reducer: {
+                    СharactersListFeature()
+                }
+            ))
     }
 }
 
