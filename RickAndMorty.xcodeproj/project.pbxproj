@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E7916EF52CDD920300CFA252 /* RickAndMorty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMorty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = RickAndMorty;
 			packageProductDependencies = (
+				E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */,
 			);
 			productName = RickAndMorty;
 			productReference = E7916EF52CDD920300CFA252 /* RickAndMorty.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = E7916EEC2CDD920300CFA252;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E7916EF62CDD920300CFA252 /* Products */;
 			projectDirPath = "";
@@ -324,6 +333,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.15.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E7916EED2CDD920300CFA252 /* Project object */;
 }
