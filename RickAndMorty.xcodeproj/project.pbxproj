@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E775D9672CDDCEB500A04873 /* RickAndMortyGraphQLSchema in Frameworks */ = {isa = PBXBuildFile; productRef = E775D9662CDDCEB500A04873 /* RickAndMortyGraphQLSchema */; };
 		E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */; };
+		E7916F202CDDB57100CFA252 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F1F2CDDB57100CFA252 /* Apollo */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,17 +29,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E775D9672CDDCEB500A04873 /* RickAndMortyGraphQLSchema in Frameworks */,
 				E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */,
+				E7916F202CDDB57100CFA252 /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E775D9682CDDCEFD00A04873 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E7916EEC2CDD920300CFA252 = {
 			isa = PBXGroup;
 			children = (
 				E7916EF72CDD920300CFA252 /* RickAndMorty */,
+				E775D9682CDDCEFD00A04873 /* Frameworks */,
 				E7916EF62CDD920300CFA252 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +83,8 @@
 			name = RickAndMorty;
 			packageProductDependencies = (
 				E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */,
+				E7916F1F2CDDB57100CFA252 /* Apollo */,
+				E775D9662CDDCEB500A04873 /* RickAndMortyGraphQLSchema */,
 			);
 			productName = RickAndMorty;
 			productReference = E7916EF52CDD920300CFA252 /* RickAndMorty.app */;
@@ -102,6 +116,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				E7916F1E2CDDB57100CFA252 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				E775D9652CDDCEB500A04873 /* XCLocalSwiftPackageReference "RickAndMortyGraphQLSchema" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E7916EF62CDD920300CFA252 /* Products */;
@@ -334,6 +350,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		E775D9652CDDCEB500A04873 /* XCLocalSwiftPackageReference "RickAndMortyGraphQLSchema" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = RickAndMortyGraphQLSchema;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -343,13 +366,30 @@
 				minimumVersion = 1.15.2;
 			};
 		};
+		E7916F1E2CDDB57100CFA252 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.15.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E775D9662CDDCEB500A04873 /* RickAndMortyGraphQLSchema */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RickAndMortyGraphQLSchema;
+		};
 		E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		E7916F1F2CDDB57100CFA252 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7916F1E2CDDB57100CFA252 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
