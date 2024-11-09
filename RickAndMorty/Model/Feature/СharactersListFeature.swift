@@ -21,6 +21,7 @@ struct СharactersListFeature {
     
     enum Action {
         case start
+        case characterButtonTapped(СharacterRepresentation)
         case sendResponse(FetchCharactersResult)
         case onAppear(СharacterRepresentation)
         case didScrollToBottom
@@ -28,7 +29,7 @@ struct СharactersListFeature {
     
     @Dependency(\.networkManager) var networkManager
     
-    private let coordinator: CharactersListCoordinator
+    private weak var coordinator: CharactersListCoordinator?
     
     init(coordinator: CharactersListCoordinator) {
         self.coordinator = coordinator
@@ -38,6 +39,9 @@ struct СharactersListFeature {
         Reduce { state, action in
             switch action {
             case .start, .didScrollToBottom:
+                guard state.isLoading == false else {
+                    return .none
+                }
                 state.isLoading = true
                 let currentPage = state.nextPage
                 if let totalPages = state.totalPages, state.nextPage > totalPages {
@@ -66,6 +70,8 @@ struct СharactersListFeature {
                         await send(.didScrollToBottom)
                     }
                 }                
+            case .characterButtonTapped(let character):
+                self.coordinator?.showCharacteInfo(for: character.id)
             }
             return .none
         }

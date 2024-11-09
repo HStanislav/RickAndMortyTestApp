@@ -18,13 +18,17 @@ class CharactersListCoordinator: BaseCoordinator {
     }
     
     override func start() {
-        let characterInfoCoordinator = CharacterInfoCoordinator(with: self.navigationController)
-        
-        let store = Store(initialState: CharacterInfoFeature.State()) {
-            CharacterInfoFeature(coordinator: characterInfoCoordinator)
+        let store = Store(initialState: СharactersListFeature.State()) {
+            СharactersListFeature(coordinator: self)
         }
-        let view = CharacterInfoView(store: store)
+        let view = CharactersListView(store: store)
         let viewController = UIHostingController(rootView: view)
-        self.navigationController.pushViewController(viewController, animated: true)
+        self.navigationController.pushViewController(viewController, animated: false)
+    }
+    
+    func showCharacteInfo(for charactetId:String) {
+        let coordinator = CharacterInfoCoordinator(with: self.navigationController, characterId: charactetId)
+        self.childCoordinators.append(coordinator)
+        coordinator.start()
     }
 }

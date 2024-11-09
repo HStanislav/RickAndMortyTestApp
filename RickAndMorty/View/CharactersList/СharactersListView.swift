@@ -17,9 +17,13 @@ struct CharactersListView: View {
             List {
                 ForEach(store.characters) { character in
                     CharacterCell(character: character)
+                        .onTapGesture {
+                            store.send(.characterButtonTapped(character))
+                        }
                         .onAppear {
                             store.send(.onAppear(character))
                         }
+                        
                 }
             }
         }

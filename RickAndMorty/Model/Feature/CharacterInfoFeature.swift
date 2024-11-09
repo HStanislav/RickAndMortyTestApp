@@ -12,18 +12,19 @@ import ComposableArchitecture
 struct CharacterInfoFeature {
     @ObservableState
     struct State {
-        var id:String = ""
+        var characterId:String
+        var character:СharacterModel?
         var isLoading: Bool = false
     }
     
     enum Action {
         case start
-        case sendResponse
+        case sendResponse(FetchCharacterResult)
     }
     
     @Dependency(\.networkManager) var networkManager
     
-    private let coordinator: CharacterInfoCoordinator
+    private var coordinator: CharacterInfoCoordinator?
     
     init(coordinator: CharacterInfoCoordinator) {
         self.coordinator = coordinator
@@ -33,9 +34,23 @@ struct CharacterInfoFeature {
         Reduce { state, action in
             switch action {
             case .start:
-                break
-            case .sendResponse:
-                break
+                guard state.isLoading == false else {
+                    return .none
+                }
+                let characterId = state.characterId
+                state.isLoading = true
+                return .run { send in
+                    let result = await self.networkManager.fetchCharacter(with: characterId)
+                    await send(.sendResponse(result))
+                }
+            case .sendResponse(let result):
+                state.isLoading = false
+                switch result {
+                case .success(let characterModel):
+                    state.character = characterModel
+                case .failed(_):
+                    break
+                }
             }
             return .none
         }

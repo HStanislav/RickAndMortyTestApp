@@ -14,13 +14,9 @@ class AppCoordinator: BaseCoordinator {
     let navigationController = UINavigationController()
     
     override func start() {
-        let charactersListCoordinator = CharactersListCoordinator(with: self.navigationController)
-        let store = Store(initialState: СharactersListFeature.State()) {
-            СharactersListFeature(coordinator: charactersListCoordinator)
-        }
-        let view = CharactersListView(store: store)
-        let viewController = UIHostingController(rootView: view)
-        self.navigationController.pushViewController(viewController, animated: false)
+        let coordinator = CharactersListCoordinator(with: self.navigationController)
+        self.childCoordinators.append(coordinator)
+        coordinator.start()
     }
     
 }

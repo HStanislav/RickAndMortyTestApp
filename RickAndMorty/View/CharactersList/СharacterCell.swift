@@ -13,9 +13,9 @@ struct CharacterCell: View {
     
     var body: some View {
         HStack {
-            Text(character.name ?? "")
-            Text(character.status ?? "")
-            Text(character.gender ?? "")
+            Text(character.name)
+            Text(character.status)
+            Text(character.gender)
         }
         
     }
