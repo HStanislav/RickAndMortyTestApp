@@ -28,6 +28,12 @@ struct СharactersListFeature {
     
     @Dependency(\.networkManager) var networkManager
     
+    private let coordinator: CharactersListCoordinator
+    
+    init(coordinator: CharactersListCoordinator) {
+        self.coordinator = coordinator
+    }
+    
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {

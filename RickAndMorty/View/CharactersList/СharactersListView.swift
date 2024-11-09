@@ -32,7 +32,11 @@ struct CharactersListView: View {
         store: Store(
             initialState:СharactersListFeature.State(),
             reducer: {
-                СharactersListFeature()
+                СharactersListFeature(
+                    coordinator: CharactersListCoordinator(
+                        with: UINavigationController()
+                    )
+                )
             }
         ))
 }

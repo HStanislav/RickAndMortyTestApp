@@ -9,14 +9,14 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ContentView: View {
+    
+    let appCoordinator = AppCoordinator()
+    
     var body: some View {
-        CharactersListView(
-            store: Store(
-                initialState:СharactersListFeature.State(),
-                reducer: {
-                    СharactersListFeature()
-                }
-            ))
+        NavigationControllerView(coordinator: appCoordinator)
+            .onAppear {
+                appCoordinator.start()
+            }
     }
 }
 
