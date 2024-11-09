@@ -13,12 +13,14 @@ struct CharactersListView: View {
     var store: StoreOf<СharactersListFeature>
     
     var body: some View {
-        List {
-            ForEach(store.characters) { character in
-                CharacterCell(character: character)
-                    .onAppear {
-                        store.send(.onAppear(character))
-                    }
+        WithPerceptionTracking {
+            List {
+                ForEach(store.characters) { character in
+                    CharacterCell(character: character)
+                        .onAppear {
+                            store.send(.onAppear(character))
+                        }
+                }
             }
         }
         .onAppear {
