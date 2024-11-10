@@ -19,7 +19,7 @@ struct CharacterInfoFeature {
     
     enum Action {
         case start
-        case sendResponse(FetchCharacterResult)
+        case sendResponse(OperationResult<СharacterModel>)
     }
     
     @Dependency(\.networkManager) var networkManager

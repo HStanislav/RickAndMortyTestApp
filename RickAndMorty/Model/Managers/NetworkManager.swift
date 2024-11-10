@@ -10,6 +10,12 @@ import SwiftUI
 import RickAndMortyGraphQLSchema
 import Dependencies
 
+enum OperationResult<T> {
+    case success(T)
+    case failed(Error?)
+}
+
+/*
 enum FetchCharacterResult: Error {
     case success(СharacterModel)
     case failed(String?)
@@ -18,15 +24,15 @@ enum FetchCharacterResult: Error {
 enum FetchCharactersResult: Error {
     case success([СharacterRepresentation], Int?)
     case failed(String?)
-}
+}*/
 
 class NetworkManager {
     
     private let urlString = "https://rickandmortyapi.com/graphql"
-    
-    func fetchCharacter(with id:String) async -> FetchCharacterResult {
+                                                                 
+    func fetchCharacter(with id:String) async -> OperationResult<СharacterModel> {
         
-        guard let url = URL(string: urlString) else {
+        guard let url = URL(string: self.urlString) else {
             return .failed(nil)
         }
         
@@ -72,10 +78,38 @@ class NetworkManager {
 
         request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
 
+        
+        let result = await self.performGraphQLRequest(with: requestBody)
+        
+        switch result {
+        case .success(let jsonResponse):
+            if let data = jsonResponse["data"] as? [String: Any],
+               let characterData = data["character"] as? [String: Any] {
+                return .success(СharacterModel(data: characterData))
+            }
+        case .failed(let error):
+            return .failed(error)
+        }
+        
+        return .failed(nil)
+    }
+    
+    private func performGraphQLRequest(with requestBody:[String: Any]) async -> OperationResult<([String : Any])> {
+        
+        guard let url = URL(string: self.urlString) else {
+            return .failed(nil)
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
+
         return await withCheckedContinuation { continuation in
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 if let error = error {
-                    continuation.resume(returning:.failed(error.localizedDescription))
+                    continuation.resume(returning:.failed(error))
                     return
                 }
                 
@@ -86,33 +120,22 @@ class NetworkManager {
                 
                 do {
                     if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        print("jsonResponse - \(jsonResponse)")
-                        if let data = jsonResponse["data"] as? [String: Any],
-                           let characterData = data["character"] as? [String: Any] {
-                            
-                            continuation.resume(returning: .success(СharacterModel(data: characterData)))
-                            return
-                        }
+                        continuation.resume(returning:.success(jsonResponse))
+                        return
                     }
-                    continuation.resume(returning:.failed(nil))
-                    return
                 } catch {
-                    continuation.resume(returning:.failed(nil))
-                    return
+
                 }
+                continuation.resume(returning:.failed(nil))
+                return
             }
             
             task.resume()
         }
-
+        
     }
     
-    func fetchCharacters(for page:Int, includePageInfo:Bool = false) async -> FetchCharactersResult {
-        
-        guard let url = URL(string: urlString) else {
-            return .failed(nil)
-        }
-        
+    func fetchCharacters(for page:Int, includePageInfo:Bool = false) async -> OperationResult<([СharacterRepresentation], Int?)> {
         
         let query = """
         query Characters($page: Int!, $includePageInfo: Boolean!) {
@@ -138,57 +161,33 @@ class NetworkManager {
                 "includePageInfo": includePageInfo
             ]
         ]
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
-
-        return await withCheckedContinuation { continuation in
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    continuation.resume(returning:.failed(error.localizedDescription))
-                    return
-                }
+        
+        let result = await self.performGraphQLRequest(with: requestBody)
+        
+        switch result {
+        case .success(let jsonResponse):
+            if let data = jsonResponse["data"] as? [String: Any],
+               let charactersData = data["characters"] as? [String: Any],
+               let results = charactersData["results"] as? [[String: Any]] {
                 
-                guard let data = data else {
-                    continuation.resume(returning:.failed(nil))
-                    return
-                }
-                
-                do {
-                    if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        
-                        if let data = jsonResponse["data"] as? [String: Any],
-                           let characters = data["characters"] as? [String: Any],
-                           let results = characters["results"] as? [[String: Any]] {
-                            
-                            let result = results.compactMap { data in
-                                if let data = data as? [String: String] {
-                                    return СharacterRepresentation(data: data)
-                                }
-                                return nil
-                            }
-                            
-                            if includePageInfo, let info = characters["info"] as? [String: Int], let pagesCount = info["pages"] {
-                                continuation.resume(returning: .success(result, pagesCount))
-                                return
-                            } else {
-                                continuation.resume(returning: .success(result, nil))
-                                return
-                            }
-                        }
+                let characters = results.compactMap { data in
+                    if let data = data as? [String: String] {
+                        return СharacterRepresentation(data: data)
                     }
-                    continuation.resume(returning:.failed(nil))
-                } catch {
-                    continuation.resume(returning:.failed(nil))
-                    return
+                    return nil
+                }
+                
+                if includePageInfo, let info = charactersData["info"] as? [String: Int], let pagesCount = info["pages"] {
+                    return .success((characters, pagesCount))
+                } else {
+                    return .success((characters, nil))
                 }
             }
-            
-            task.resume()
+        case .failed(let error):
+            return .failed(error)
         }
+        
+        return .failed(nil)
     }
 
 }

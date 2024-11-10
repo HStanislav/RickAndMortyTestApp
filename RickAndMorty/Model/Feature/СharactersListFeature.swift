@@ -22,7 +22,7 @@ struct СharactersListFeature {
     enum Action {
         case start
         case characterButtonTapped(СharacterRepresentation)
-        case sendResponse(FetchCharactersResult)
+        case sendResponse(OperationResult<([СharacterRepresentation], Int?)>)
         case onAppear(СharacterRepresentation)
         case didScrollToBottom
     }
