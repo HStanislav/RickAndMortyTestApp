@@ -20,3 +20,8 @@ protocol NetworkService {
 protocol LocalStorage {
     func save(characters: [СharacterRepresentation]) -> OperationResult<Void>
 }
+
+protocol RepositoryProtocol {
+    func fetchCharacters(for page:Int, includePageInfo:Bool) async -> OperationResult<([СharacterRepresentation], Int?)>
+    func fetchCharacter(with id:String) async -> OperationResult<СharacterModel>
+}

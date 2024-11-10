@@ -17,6 +17,9 @@ class Repository {
         self.localStorage = localStorage
     }
     
+}
+
+extension Repository: RepositoryProtocol {
     func fetchCharacters(for page:Int, includePageInfo:Bool) async -> OperationResult<([СharacterRepresentation], Int?)> {
         return await self.networkService.fetchCharacters(for: page, includePageInfo: includePageInfo)
     }
@@ -24,13 +27,12 @@ class Repository {
     func fetchCharacter(with id:String) async -> OperationResult<СharacterModel> {
         return await self.networkService.fetchCharacter(with: id)
     }
-    
 }
 
 
 
-extension Repository: DependencyKey {
-    static let liveValue = Repository(
+enum RepositoryKey: DependencyKey {
+    static let liveValue:RepositoryProtocol = Repository(
         networkService: URLSessionNetworkService(),
         localStorage: RealmLocalStorage()
     )
@@ -39,9 +41,9 @@ extension Repository: DependencyKey {
 
 extension DependencyValues {
     
-  var repository: Repository {
-    get { self[Repository.self] }
-    set { self[Repository.self] = newValue }
+  var repository: RepositoryProtocol {
+    get { self[RepositoryKey.self] }
+    set { self[RepositoryKey.self] = newValue }
   }
     
 }

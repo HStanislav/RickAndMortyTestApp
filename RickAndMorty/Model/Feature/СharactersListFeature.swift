@@ -89,21 +89,13 @@ struct СharactersListFeature {
                     return .none
                 }
                 let didScrollToBottom = character == state.characters.last
-                
-                let hasImage = character.image != nil
-                
-                guard hasImage == false || didScrollToBottom else {
-                    return .none
-                }
-                
+
                 return .run { send in
                     if didScrollToBottom {
                         await send(.didScrollToBottom)
                     }
-                    if hasImage == false {
-                        let image = await imageLoader.loadImage(from: character.imageURL)
-                        await send(.imageLoaded(id: id, image: image))
-                    }
+                    let image = await imageLoader.loadImage(from: character.imageURL)
+                    await send(.imageLoaded(id: id, image: image))
                 }
             case .characterButtonTapped(let character):
                 self.coordinator?.showCharacteInfo(for: character.id)
