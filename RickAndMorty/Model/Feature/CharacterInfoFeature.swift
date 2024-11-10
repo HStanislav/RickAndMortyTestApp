@@ -22,7 +22,7 @@ struct CharacterInfoFeature {
         case sendResponse(OperationResult<СharacterModel>)
     }
     
-    @Dependency(\.networkManager) var networkManager
+    @Dependency(\.repository) var repository
     
     private var coordinator: CharacterInfoCoordinator?
     
@@ -40,7 +40,7 @@ struct CharacterInfoFeature {
                 let characterId = state.characterId
                 state.isLoading = true
                 return .run { send in
-                    let result = await self.networkManager.fetchCharacter(with: characterId)
+                    let result = await self.repository.fetchCharacter(with: characterId)
                     await send(.sendResponse(result))
                 }
             case .sendResponse(let result):

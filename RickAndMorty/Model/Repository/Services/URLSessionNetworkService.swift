@@ -8,30 +8,57 @@
 import Foundation
 import SwiftUI
 import RickAndMortyGraphQLSchema
-import Dependencies
 
-enum OperationResult<T> {
-    case success(T)
-    case failed(Error?)
-}
-
-/*
-enum FetchCharacterResult: Error {
-    case success(СharacterModel)
-    case failed(String?)
-}
-
-enum FetchCharactersResult: Error {
-    case success([СharacterRepresentation], Int?)
-    case failed(String?)
-}*/
-
-class NetworkManager {
+class URLSessionNetworkService {
     
     private let urlString = "https://rickandmortyapi.com/graphql"
                                                                  
-    func fetchCharacter(with id:String) async -> OperationResult<СharacterModel> {
+    private func performGraphQLRequest(with requestBody:[String: Any]) async -> OperationResult<([String : Any])> {
         
+        guard let url = URL(string: self.urlString) else {
+            return .failed(nil)
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
+
+        return await withCheckedContinuation { continuation in
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    continuation.resume(returning:.failed(error))
+                    return
+                }
+                
+                guard let data = data else {
+                    continuation.resume(returning:.failed(nil))
+                    return
+                }
+                
+                do {
+                    if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        continuation.resume(returning:.success(jsonResponse))
+                        return
+                    }
+                } catch {
+
+                }
+                continuation.resume(returning:.failed(nil))
+                return
+            }
+            
+            task.resume()
+        }
+        
+    }
+
+}
+
+extension URLSessionNetworkService: NetworkService {
+    
+    func fetchCharacter(with id: String) async -> OperationResult<СharacterModel> {
         guard let url = URL(string: self.urlString) else {
             return .failed(nil)
         }
@@ -94,49 +121,7 @@ class NetworkManager {
         return .failed(nil)
     }
     
-    private func performGraphQLRequest(with requestBody:[String: Any]) async -> OperationResult<([String : Any])> {
-        
-        guard let url = URL(string: self.urlString) else {
-            return .failed(nil)
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
-
-        return await withCheckedContinuation { continuation in
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    continuation.resume(returning:.failed(error))
-                    return
-                }
-                
-                guard let data = data else {
-                    continuation.resume(returning:.failed(nil))
-                    return
-                }
-                
-                do {
-                    if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        continuation.resume(returning:.success(jsonResponse))
-                        return
-                    }
-                } catch {
-
-                }
-                continuation.resume(returning:.failed(nil))
-                return
-            }
-            
-            task.resume()
-        }
-        
-    }
-    
-    func fetchCharacters(for page:Int, includePageInfo:Bool = false) async -> OperationResult<([СharacterRepresentation], Int?)> {
-        
+    func fetchCharacters(for page: Int, includePageInfo: Bool) async -> OperationResult<([СharacterRepresentation], Int?)> {
         let query = """
         query Characters($page: Int!, $includePageInfo: Boolean!) {
             characters(page: $page) {
@@ -189,19 +174,8 @@ class NetworkManager {
         
         return .failed(nil)
     }
-
-}
-
-extension NetworkManager: DependencyKey {
-    static let liveValue = NetworkManager()
-}
-
-
-extension DependencyValues {
     
-  var networkManager: NetworkManager {
-    get { self[NetworkManager.self] }
-    set { self[NetworkManager.self] = newValue }
-  }
     
 }
+
+

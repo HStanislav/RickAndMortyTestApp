@@ -27,7 +27,7 @@ struct СharactersListFeature {
         case didScrollToBottom
     }
     
-    @Dependency(\.networkManager) var networkManager
+    @Dependency(\.repository) var repository
     
     private weak var coordinator: CharactersListCoordinator?
     
@@ -49,13 +49,13 @@ struct СharactersListFeature {
                 }
                 let includePageInfo = state.totalPages == nil
                 return .run { send in
-                    let result = await self.networkManager.fetchCharacters(for: currentPage, includePageInfo: includePageInfo)
+                    let result = await self.repository.fetchCharacters(for: currentPage, includePageInfo: includePageInfo)
                     await send(.sendResponse(result))
                 }
             case .sendResponse(let result):
                 state.isLoading = false
                 switch result {
-                case .success(let characters, let pagesCount):
+                case .success((let characters, let pagesCount)):
                     if state.totalPages == nil {
                         state.totalPages = pagesCount
                     }
