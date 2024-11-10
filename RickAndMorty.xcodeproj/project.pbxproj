@@ -10,6 +10,7 @@
 		E775D9672CDDCEB500A04873 /* RickAndMortyGraphQLSchema in Frameworks */ = {isa = PBXBuildFile; productRef = E775D9662CDDCEB500A04873 /* RickAndMortyGraphQLSchema */; };
 		E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */; };
 		E7916F202CDDB57100CFA252 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F1F2CDDB57100CFA252 /* Apollo */; };
+		E7E2718E2CE0599D00C96132 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = E7E2718D2CE0599D00C96132 /* Nuke */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 				E775D9672CDDCEB500A04873 /* RickAndMortyGraphQLSchema in Frameworks */,
 				E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */,
 				E7916F202CDDB57100CFA252 /* Apollo in Frameworks */,
+				E7E2718E2CE0599D00C96132 /* Nuke in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +87,7 @@
 				E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */,
 				E7916F1F2CDDB57100CFA252 /* Apollo */,
 				E775D9662CDDCEB500A04873 /* RickAndMortyGraphQLSchema */,
+				E7E2718D2CE0599D00C96132 /* Nuke */,
 			);
 			productName = RickAndMorty;
 			productReference = E7916EF52CDD920300CFA252 /* RickAndMorty.app */;
@@ -118,6 +121,7 @@
 				E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				E7916F1E2CDDB57100CFA252 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 				E775D9652CDDCEB500A04873 /* XCLocalSwiftPackageReference "RickAndMortyGraphQLSchema" */,
+				E7E2718C2CE0599D00C96132 /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E7916EF62CDD920300CFA252 /* Products */;
@@ -374,6 +378,14 @@
 				minimumVersion = 1.15.2;
 			};
 		};
+		E7E2718C2CE0599D00C96132 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -390,6 +402,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E7916F1E2CDDB57100CFA252 /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
+		};
+		E7E2718D2CE0599D00C96132 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7E2718C2CE0599D00C96132 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
