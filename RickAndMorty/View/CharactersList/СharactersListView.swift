@@ -14,9 +14,11 @@ struct CharactersListView: View {
     
     var body: some View {
         WithPerceptionTracking {
-            List {
-                ForEach(store.characters) { character in
+            
+            List(store.characters) { character in
+                LazyVStack {
                     CharacterCell(character: character)
+                        .frame(height: 90)
                         .onTapGesture {
                             store.send(.characterButtonTapped(character))
                         }
@@ -26,16 +28,15 @@ struct CharactersListView: View {
                         .onDisappear() {
                             store.send(.onDisappear(character.id))
                         }
-                        
+                    
                 }
             }
-        }
-        .onAppear {
-            store.send(.start)
+            .onAppear {
+                store.send(.start)
+            }
         }
     }
 }
-
 #Preview {
     CharactersListView(
         store: Store(

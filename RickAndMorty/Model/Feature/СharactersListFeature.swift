@@ -84,12 +84,17 @@ struct СharactersListFeature {
                     state.characters[index].image = nil
                 }
             case .onAppear(let id):
+
                 guard let character = state.characters.first(where: { $0.id == id }) else {
                     return .none
                 }
                 let didScrollToBottom = character == state.characters.last
                 
                 let hasImage = character.image != nil
+                
+                guard hasImage == false || didScrollToBottom else {
+                    return .none
+                }
                 
                 return .run { send in
                     if didScrollToBottom {
