@@ -104,30 +104,3 @@ struct СharacterModel: Equatable, Identifiable {
     }
     
 }
-            /*
-             query Character {
-                 character(id: "1") {
-                     id
-                     name
-                     status
-                     species
-                     type
-                     gender
-                     image
-                     episode {
-                         id
-                         name
-                         episode
-                     }
-                     origin {
-                         id
-                         name
-                     }
-                     location {
-                         id
-                         name
-                     }
-                     created
-                 }
-             }
-             */
