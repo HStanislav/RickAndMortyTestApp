@@ -97,15 +97,7 @@ extension URLSessionNetworkService: NetworkService {
                 "id": "\(id)",
             ]
         ]
-        
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
-
-        
         let result = await self.performGraphQLRequest(with: requestBody)
         
         switch result {
