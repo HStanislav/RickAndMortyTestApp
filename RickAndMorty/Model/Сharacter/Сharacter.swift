@@ -14,18 +14,12 @@ struct СharacterRepresentation: Equatable, Identifiable {
     
     var name: String
     
-    var gender: String
-    
-    let status: String
-    
-    let image: String
+    let imageURL: String
     
     init(data: [String : String]) {
         self.id = data["id"] ?? ""
-        self.image = data["image"] ?? ""
+        self.imageURL = data["image"] ?? ""
         self.name = data["name"] ?? ""
-        self.gender = data["status"] ?? ""
-        self.status = data["id"] ?? ""
     }
     
 }

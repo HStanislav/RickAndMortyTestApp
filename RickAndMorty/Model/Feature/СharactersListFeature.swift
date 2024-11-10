@@ -5,15 +5,23 @@
 //  Created by Стас Гринорьев on 07.11.2024.
 //
 
-import Foundation
+import UIKit
+import SwiftUI
 import ComposableArchitecture
 
+
+struct CharacterRepresentationState: Equatable, Identifiable {
+    let id: String
+    var name: String
+    let imageURL:String
+    var image: UIImage?
+}
 
 @Reducer
 struct СharactersListFeature {
     @ObservableState
     struct State {
-        var characters: IdentifiedArrayOf<СharacterRepresentation> = []
+        var characters: IdentifiedArrayOf<CharacterRepresentationState> = []
         var isLoading: Bool = false
         var nextPage = 1
         var totalPages:Int? = nil
@@ -21,13 +29,19 @@ struct СharactersListFeature {
     
     enum Action {
         case start
-        case characterButtonTapped(СharacterRepresentation)
-        case sendResponse(OperationResult<([СharacterRepresentation], Int?)>)
-        case onAppear(СharacterRepresentation)
+        case characterButtonTapped(CharacterRepresentationState)
         case didScrollToBottom
+        
+        case onDisappear(String)
+        case onAppear(String)
+        
+        case sendResponse(OperationResult<([СharacterRepresentation], Int?)>)
+        case imageLoaded(id: String, image: UIImage?)
     }
     
     @Dependency(\.repository) var repository
+    @Dependency(\.imageLoader) var imageLoader
+    
     
     private weak var coordinator: CharactersListCoordinator?
     
@@ -59,19 +73,39 @@ struct СharactersListFeature {
                     if state.totalPages == nil {
                         state.totalPages = pagesCount
                     }
-                    state.characters.append(contentsOf: characters)
+                    let charactersStates = characters.map { CharacterRepresentationState(id: $0.id, name: $0.name, imageURL: $0.imageURL, image: nil) }
+                    state.characters.append(contentsOf: charactersStates)
                     state.nextPage += 1
                 default:
                     break
                 }
-            case .onAppear(let character):
-                if character == state.characters.last {
-                    return .run { send in
+            case .onDisappear(let id):
+                if let index = state.characters.firstIndex(where: { $0.id == id }) {
+                    state.characters[index].image = nil
+                }
+            case .onAppear(let id):
+                guard let character = state.characters.first(where: { $0.id == id }) else {
+                    return .none
+                }
+                let didScrollToBottom = character == state.characters.last
+                
+                let hasImage = character.image != nil
+                
+                return .run { send in
+                    if didScrollToBottom {
                         await send(.didScrollToBottom)
                     }
-                }                
+                    if hasImage == false {
+                        let image = await imageLoader.loadImage(from: character.imageURL)
+                        await send(.imageLoaded(id: id, image: image))
+                    }
+                }
             case .characterButtonTapped(let character):
                 self.coordinator?.showCharacteInfo(for: character.id)
+            case .imageLoaded(id: let id, image: let image):
+                if let index = state.characters.firstIndex(where: { $0.id == id }) {
+                    state.characters[index].image = image
+                }
             }
             return .none
         }

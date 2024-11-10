@@ -21,6 +21,13 @@ class ImageLoader {
         }
     }
     
+    func loadImage(from urlString: String) async -> UIImage? {
+        guard let url = URL(string: urlString) else {
+            return nil
+        }
+        return await self.loadImage(from: url)
+    }
+    
     func loadImage(from url: URL) async -> UIImage? {
         return await withCheckedContinuation { continuation in
             self.pipeline.loadImage(with: url) { result in

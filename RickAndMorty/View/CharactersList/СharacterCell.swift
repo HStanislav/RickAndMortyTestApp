@@ -9,14 +9,14 @@ import SwiftUI
 
 struct CharacterCell: View {
     
-    let character:СharacterRepresentation
+    let character:CharacterRepresentationState
     
     var body: some View {
         HStack {
+            if let image = character.image {
+                Image(uiImage: image)
+            }
             Text(character.name)
-            Text(character.status)
-            Text(character.gender)
         }
-        
     }
 }

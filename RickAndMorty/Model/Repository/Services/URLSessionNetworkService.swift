@@ -121,8 +121,6 @@ extension URLSessionNetworkService: NetworkService {
                     id
                     name
                     image
-                    status
-                    gender
                 }
                 info @include(if: $includePageInfo) {
                     pages

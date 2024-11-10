@@ -21,7 +21,10 @@ struct CharactersListView: View {
                             store.send(.characterButtonTapped(character))
                         }
                         .onAppear {
-                            store.send(.onAppear(character))
+                            store.send(.onAppear(character.id))
+                        }
+                        .onDisappear() {
+                            store.send(.onDisappear(character.id))
                         }
                         
                 }
