@@ -7,13 +7,12 @@
 
 import Foundation
 import SwiftUI
-import RickAndMortyGraphQLSchema
 
 class URLSessionNetworkService {
     
     private let urlString = "https://rickandmortyapi.com/graphql"
                                                                  
-    private func performGraphQLRequest(with requestBody:[String: Any]) async -> OperationResult<([String : Any])> {
+    private func performRequest(with requestBody:[String: Any]) async -> OperationResult<([String : Any])> {
         
         guard let url = URL(string: self.urlString) else {
             return .failed(nil)
@@ -98,7 +97,7 @@ extension URLSessionNetworkService: NetworkService {
             ]
         ]
 
-        let result = await self.performGraphQLRequest(with: requestBody)
+        let result = await self.performRequest(with: requestBody)
         
         switch result {
         case .success(let jsonResponse):
@@ -137,7 +136,7 @@ extension URLSessionNetworkService: NetworkService {
             ]
         ]
         
-        let result = await self.performGraphQLRequest(with: requestBody)
+        let result = await self.performRequest(with: requestBody)
         
         switch result {
         case .success(let jsonResponse):

@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E70340B72CE21300005C9831 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = E7F83D092CE1A6F3008DED28 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E775D9672CDDCEB500A04873 /* RickAndMortyGraphQLSchema in Frameworks */ = {isa = PBXBuildFile; productRef = E775D9662CDDCEB500A04873 /* RickAndMortyGraphQLSchema */; };
 		E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */; };
-		E7916F202CDDB57100CFA252 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F1F2CDDB57100CFA252 /* Apollo */; };
 		E7E2718E2CE0599D00C96132 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = E7E2718D2CE0599D00C96132 /* Nuke */; };
 		E7F83D0A2CE1A6F3008DED28 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E7F83D092CE1A6F3008DED28 /* RealmSwift */; };
 /* End PBXBuildFile section */
@@ -46,9 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E775D9672CDDCEB500A04873 /* RickAndMortyGraphQLSchema in Frameworks */,
 				E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */,
-				E7916F202CDDB57100CFA252 /* Apollo in Frameworks */,
 				E7F83D0A2CE1A6F3008DED28 /* RealmSwift in Frameworks */,
 				E7E2718E2CE0599D00C96132 /* Nuke in Frameworks */,
 			);
@@ -103,7 +99,6 @@
 			name = RickAndMorty;
 			packageProductDependencies = (
 				E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */,
-				E7916F1F2CDDB57100CFA252 /* Apollo */,
 				E775D9662CDDCEB500A04873 /* RickAndMortyGraphQLSchema */,
 				E7E2718D2CE0599D00C96132 /* Nuke */,
 				E7F83D092CE1A6F3008DED28 /* RealmSwift */,
@@ -138,8 +133,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
-				E7916F1E2CDDB57100CFA252 /* XCRemoteSwiftPackageReference "apollo-ios" */,
-				E775D9652CDDCEB500A04873 /* XCLocalSwiftPackageReference "RickAndMortyGraphQLSchema" */,
 				E7E2718C2CE0599D00C96132 /* XCRemoteSwiftPackageReference "Nuke" */,
 				E7F83D082CE1A6F3008DED28 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
@@ -384,25 +377,10 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		E775D9652CDDCEB500A04873 /* XCLocalSwiftPackageReference "RickAndMortyGraphQLSchema" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = RickAndMortyGraphQLSchema;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.15.2;
-			};
-		};
-		E7916F1E2CDDB57100CFA252 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.15.2;
@@ -435,11 +413,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E7916F062CDD9BCA00CFA252 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
-		};
-		E7916F1F2CDDB57100CFA252 /* Apollo */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E7916F1E2CDDB57100CFA252 /* XCRemoteSwiftPackageReference "apollo-ios" */;
-			productName = Apollo;
 		};
 		E7E2718D2CE0599D00C96132 /* Nuke */ = {
 			isa = XCSwiftPackageProductDependency;

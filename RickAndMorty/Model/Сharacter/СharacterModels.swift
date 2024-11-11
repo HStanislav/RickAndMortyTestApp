@@ -5,7 +5,6 @@
 //  Created by Стас Гринорьев on 07.11.2024.
 //
 import UIKit
-import RickAndMortyGraphQLSchema
 
 
 struct СharacterRepresentation: Equatable, Identifiable {
