@@ -5,20 +5,52 @@
 //  Created by Стас Гринорьев on 08.11.2024.
 //
 
+import UIKit
 
 protocol Coordinator: AnyObject {
-    var childCoordinators: [Coordinator] { get set }
+    
     func start()
+    
+    var navigationController: UINavigationController { get set }
+    
+    func popViewController(animated: Bool)
 }
 
 extension Coordinator {
     
-    func add(coordinator: Coordinator) {
-        childCoordinators.append(coordinator)
+    func popViewController(animated: Bool) {
+        self.navigationController.popViewController(animated: animated)
     }
     
-    func remove(coordinator: Coordinator) {
-        childCoordinators.removeAll(where: { $0 === coordinator })
+}
+
+protocol ParentCoordinator: Coordinator {
+    
+    var childCoordinators: [Coordinator] { get set }
+    
+    func addChild(_ child: Coordinator)
+    
+    func childDidFinish(_ child: Coordinator)
+}
+
+extension ParentCoordinator {
+    
+    func addChild(_ child: Coordinator){
+        childCoordinators.append(child)
     }
     
+    func childDidFinish(_ child: Coordinator) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === child {
+                childCoordinators.remove(at: index)
+                break
+            }
+        }
+    }
+}
+
+protocol ChildCoordinator: Coordinator {
+    
+    func coordinatorDidFinish()
+    var viewController: UIViewController? { get set }
 }

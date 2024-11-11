@@ -9,14 +9,17 @@ import UIKit
 import SwiftUI
 import ComposableArchitecture
 
-class AppCoordinator: BaseCoordinator {
-    
-    let navigationController = UINavigationController()
-    
-    override func start() {
+class AppCoordinator: ParentCoordinator {
+
+    func start() {
         let coordinator = CharactersListCoordinator(with: self.navigationController)
-        self.childCoordinators.append(coordinator)
+        self.addChild(coordinator)
         coordinator.start()
     }
+    
+    
+    var childCoordinators = [Coordinator]()
+    
+    var navigationController = UINavigationController()
     
 }

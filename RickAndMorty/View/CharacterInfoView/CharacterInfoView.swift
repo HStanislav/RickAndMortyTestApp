@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 struct CharacterInfoView: View {
     
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    
     var store: StoreOf<CharacterInfoFeature>
     
     var body: some View {
@@ -60,6 +62,12 @@ struct CharacterInfoView: View {
                 }
                 
             }
+            .navigationBarBackButtonHidden(true)
+                        .navigationBarItems(leading: Button(action : {
+                            self.mode.wrappedValue.dismiss()
+                        }){
+                            Image(systemName: "arrow.left")
+                        })
             .onAppear {
                 store.send(.start)
             }

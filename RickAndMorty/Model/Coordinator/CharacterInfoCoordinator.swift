@@ -9,9 +9,11 @@ import UIKit
 import SwiftUI
 import ComposableArchitecture
 
-class CharacterInfoCoordinator: BaseCoordinator {
+class CharacterInfoCoordinator: ChildCoordinator {
     
-    private let navigationController: UINavigationController
+    var navigationController: UINavigationController
+    var viewController: UIViewController?
+    
     private let characterId:String
     
     init(with navigationController: UINavigationController, characterId:String) {
@@ -19,12 +21,17 @@ class CharacterInfoCoordinator: BaseCoordinator {
         self.characterId = characterId
     }
     
-    override func start() {
+    func coordinatorDidFinish() {
+        
+    }
+    
+    func start() {
         let store = Store(initialState: CharacterInfoFeature.State(characterId: self.characterId)) {
             CharacterInfoFeature(coordinator: self)
         }
         let view = CharacterInfoView(store: store)
         let viewController = UIHostingController(rootView: view)
+        self.viewController = viewController
         self.navigationController.pushViewController(viewController, animated: true)
     }
     
