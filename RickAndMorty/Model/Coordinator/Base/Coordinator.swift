@@ -10,9 +10,7 @@ import UIKit
 protocol Coordinator: AnyObject {
     
     func start()
-    
     var navigationController: UINavigationController { get set }
-    
     func popViewController(animated: Bool)
 }
 
@@ -27,9 +25,7 @@ extension Coordinator {
 protocol ParentCoordinator: Coordinator {
     
     var childCoordinators: [Coordinator] { get set }
-    
     func addChild(_ child: Coordinator)
-    
     func childDidFinish(_ child: Coordinator)
 }
 

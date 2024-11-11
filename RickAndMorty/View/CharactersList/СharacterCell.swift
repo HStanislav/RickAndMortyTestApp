@@ -32,6 +32,5 @@ struct CharacterCell: View {
 }
 
 #Preview {
-    
     CharacterCell(characterState: CharacterRepresentationState(characterRepresentation: СharacterRepresentation(data: [:])))
 }
