@@ -1,1 +1,1 @@
-# RickAndMorty
+# RickAndMortyTestApp
