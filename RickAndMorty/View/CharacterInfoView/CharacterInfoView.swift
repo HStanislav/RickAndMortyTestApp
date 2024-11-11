@@ -15,7 +15,7 @@ struct CharacterInfoView: View {
     
     var body: some View {
         WithPerceptionTracking {
-            VStack {
+            VStack() {
                 if let characterState = store.characterState {
                     
                     if let image = characterState.image {
@@ -52,6 +52,15 @@ struct CharacterInfoView: View {
                     }
                     .frame(width: 400)
                     
+                    Spacer(minLength: 50)
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Text("EPISODE")
+                        
+                        Spacer()
+                    }
                     List(characterState.charactedModel.episode) { episode in
                         LazyVStack {
                             EpisodeCell(episode: episode)

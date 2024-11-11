@@ -17,14 +17,17 @@ struct CharacterCell: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .frame(height: 80)
             } else {
                 ProgressView()
+                    .frame(width: 80, height: 80)
             }
             
             Spacer()
             Text(characterState.characterRepresentation.name)
             Spacer()
         }
+        .navigationBarTitle(Text("Characters")) 
     }
 }
 
