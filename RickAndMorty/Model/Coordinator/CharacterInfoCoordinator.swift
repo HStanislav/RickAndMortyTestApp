@@ -25,7 +25,6 @@ class CharacterInfoCoordinator: ChildCoordinator {
     
     func coordinatorDidFinish() {
         self.parent?.childDidFinish(self)
-        self.popViewController(animated: false)
     }
     
     func start() {

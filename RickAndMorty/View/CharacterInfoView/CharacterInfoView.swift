@@ -11,6 +11,7 @@ import ComposableArchitecture
 struct CharacterInfoView: View {
     
     var store: StoreOf<CharacterInfoFeature>
+    @Environment(\.isPresented) var isPresented
     
     var body: some View {
         WithPerceptionTracking {
@@ -60,14 +61,13 @@ struct CharacterInfoView: View {
                 }
                 
             }
-            .navigationBarBackButtonHidden(true)
-                        .navigationBarItems(leading: Button(action : {
-                            store.send(.navigateBack)
-                        }){
-                            Image(systemName: "arrow.left")
-                        })
             .onAppear {
                 store.send(.start)
+            }
+            .onDisappear {
+                if isPresented == false {
+                    store.send(.navigateBack)
+                }
             }
         }
     }

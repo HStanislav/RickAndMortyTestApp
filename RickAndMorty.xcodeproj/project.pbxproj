@@ -7,12 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E70340B72CE21300005C9831 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = E7F83D092CE1A6F3008DED28 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E775D9672CDDCEB500A04873 /* RickAndMortyGraphQLSchema in Frameworks */ = {isa = PBXBuildFile; productRef = E775D9662CDDCEB500A04873 /* RickAndMortyGraphQLSchema */; };
 		E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */; };
 		E7916F202CDDB57100CFA252 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F1F2CDDB57100CFA252 /* Apollo */; };
 		E7E2718E2CE0599D00C96132 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = E7E2718D2CE0599D00C96132 /* Nuke */; };
 		E7F83D0A2CE1A6F3008DED28 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E7F83D092CE1A6F3008DED28 /* RealmSwift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E70340B82CE21300005C9831 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E70340B72CE21300005C9831 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E7916EF52CDD920300CFA252 /* RickAndMorty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMorty.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +91,7 @@
 				E7916EF12CDD920300CFA252 /* Sources */,
 				E7916EF22CDD920300CFA252 /* Frameworks */,
 				E7916EF32CDD920300CFA252 /* Resources */,
+				E70340B82CE21300005C9831 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -282,9 +298,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RickAndMorty/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K6436A759G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -300,6 +319,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = HryhorievUA.RickAndMorty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_provision;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -311,9 +332,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RickAndMorty/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K6436A759G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -329,6 +353,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = HryhorievUA.RickAndMorty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_provision;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
