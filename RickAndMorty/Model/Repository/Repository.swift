@@ -21,7 +21,16 @@ class Repository {
 
 extension Repository: RepositoryProtocol {
     func fetchCharacters(for page:Int, includePageInfo:Bool) async -> OperationResult<([СharacterRepresentation], Int?)> {
-        return await self.networkService.fetchCharacters(for: page, includePageInfo: includePageInfo)
+        let result = await self.networkService.fetchCharacters(for: page, includePageInfo: includePageInfo)
+        switch result {
+        case .success((let characters, _)):
+            Task {
+                _ = await self.localStorage.save(characters: characters)
+            }
+        default:
+            break
+        }
+        return result
     }
     
     func fetchCharacter(with id:String) async -> OperationResult<СharacterModel> {

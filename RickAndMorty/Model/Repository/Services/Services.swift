@@ -18,7 +18,8 @@ protocol NetworkService {
 
 
 protocol LocalStorage {
-    func save(characters: [СharacterRepresentation]) -> OperationResult<Void>
+    func save(characters: [СharacterRepresentation]) async -> OperationResult<Void>
+    func fetchCharacters() async -> OperationResult<[СharacterRepresentation]>
 }
 
 protocol RepositoryProtocol {

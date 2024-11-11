@@ -11,6 +11,7 @@
 		E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F072CDD9BCA00CFA252 /* ComposableArchitecture */; };
 		E7916F202CDDB57100CFA252 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = E7916F1F2CDDB57100CFA252 /* Apollo */; };
 		E7E2718E2CE0599D00C96132 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = E7E2718D2CE0599D00C96132 /* Nuke */; };
+		E7F83D0A2CE1A6F3008DED28 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E7F83D092CE1A6F3008DED28 /* RealmSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 				E775D9672CDDCEB500A04873 /* RickAndMortyGraphQLSchema in Frameworks */,
 				E7916F082CDD9BCA00CFA252 /* ComposableArchitecture in Frameworks */,
 				E7916F202CDDB57100CFA252 /* Apollo in Frameworks */,
+				E7F83D0A2CE1A6F3008DED28 /* RealmSwift in Frameworks */,
 				E7E2718E2CE0599D00C96132 /* Nuke in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,6 +90,7 @@
 				E7916F1F2CDDB57100CFA252 /* Apollo */,
 				E775D9662CDDCEB500A04873 /* RickAndMortyGraphQLSchema */,
 				E7E2718D2CE0599D00C96132 /* Nuke */,
+				E7F83D092CE1A6F3008DED28 /* RealmSwift */,
 			);
 			productName = RickAndMorty;
 			productReference = E7916EF52CDD920300CFA252 /* RickAndMorty.app */;
@@ -122,6 +125,7 @@
 				E7916F1E2CDDB57100CFA252 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 				E775D9652CDDCEB500A04873 /* XCLocalSwiftPackageReference "RickAndMortyGraphQLSchema" */,
 				E7E2718C2CE0599D00C96132 /* XCRemoteSwiftPackageReference "Nuke" */,
+				E7F83D082CE1A6F3008DED28 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E7916EF62CDD920300CFA252 /* Products */;
@@ -386,6 +390,14 @@
 				minimumVersion = 12.8.0;
 			};
 		};
+		E7F83D082CE1A6F3008DED28 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 20.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -407,6 +419,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E7E2718C2CE0599D00C96132 /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = Nuke;
+		};
+		E7F83D092CE1A6F3008DED28 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7F83D082CE1A6F3008DED28 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
