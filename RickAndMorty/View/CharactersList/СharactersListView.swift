@@ -44,7 +44,8 @@ struct CharactersListView: View {
             reducer: {
                 СharactersListFeature(
                     coordinator: CharactersListCoordinator(
-                        with: UINavigationController()
+                        with: UINavigationController(),
+                        parent: AppCoordinator()
                     )
                 )
             }

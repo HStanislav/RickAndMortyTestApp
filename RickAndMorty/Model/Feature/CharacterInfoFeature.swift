@@ -32,6 +32,7 @@ struct CharacterInfoFeature {
         case start
         case sendResponse(OperationResult<СharacterModel>)
         case imageLoaded(image: UIImage?)
+        case navigateBack
     }
     
     @Dependency(\.repository) var repository
@@ -72,6 +73,8 @@ struct CharacterInfoFeature {
                 if let image = image {
                     state.characterState?.image = image
                 }
+            case .navigateBack:
+                self.coordinator?.coordinatorDidFinish()
             }
             return .none
         }

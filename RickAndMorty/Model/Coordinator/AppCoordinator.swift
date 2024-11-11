@@ -11,15 +11,19 @@ import ComposableArchitecture
 
 class AppCoordinator: ParentCoordinator {
 
+    var childCoordinators = [Coordinator]()
+    var navigationController = UINavigationController()
+    
     func start() {
-        let coordinator = CharactersListCoordinator(with: self.navigationController)
+        let coordinator = CharactersListCoordinator(with: self.navigationController, parent: self)
         self.addChild(coordinator)
         coordinator.start()
     }
     
-    
-    var childCoordinators = [Coordinator]()
-    
-    var navigationController = UINavigationController()
+    func showCharacteInfo(for charactetId:String) {
+        let coordinator = CharacterInfoCoordinator(with: self.navigationController, parent: self, characterId: charactetId)
+        self.addChild(coordinator)
+        coordinator.start()
+    }
     
 }

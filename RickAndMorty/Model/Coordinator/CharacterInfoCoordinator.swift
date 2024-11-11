@@ -13,16 +13,19 @@ class CharacterInfoCoordinator: ChildCoordinator {
     
     var navigationController: UINavigationController
     var viewController: UIViewController?
+    weak var parent: AppCoordinator?
     
     private let characterId:String
     
-    init(with navigationController: UINavigationController, characterId:String) {
+    init(with navigationController: UINavigationController, parent: AppCoordinator, characterId:String) {
         self.navigationController = navigationController
+        self.parent = parent
         self.characterId = characterId
     }
     
     func coordinatorDidFinish() {
-        
+        self.parent?.childDidFinish(self)
+        self.popViewController(animated: false)
     }
     
     func start() {

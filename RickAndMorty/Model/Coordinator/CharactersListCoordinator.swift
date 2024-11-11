@@ -13,9 +13,11 @@ class CharactersListCoordinator: ChildCoordinator {
     
     var viewController: UIViewController?
     var navigationController: UINavigationController
-        
-    init(with navigationController: UINavigationController) {
+    weak var parent:AppCoordinator?
+    
+    init(with navigationController: UINavigationController, parent:AppCoordinator) {
         self.navigationController = navigationController
+        self.parent = parent
     }
     
     func coordinatorDidFinish() {
@@ -33,7 +35,7 @@ class CharactersListCoordinator: ChildCoordinator {
     }
     
     func showCharacteInfo(for charactetId:String) {
-        let coordinator = CharacterInfoCoordinator(with: self.navigationController, characterId: charactetId)
-        coordinator.start()
+        self.parent?.showCharacteInfo(for: charactetId)
     }
+    
 }
