@@ -36,8 +36,8 @@ struct Episode: Equatable, Identifiable {
     
     init(data: [String : String]) {
         self.id = data["id"] ?? ""
-        self.name = data["status"] ?? ""
-        self.episode = data["species"] ?? ""
+        self.name = data["name"] ?? ""
+        self.episode = data["episode"] ?? ""
     }
 }
 

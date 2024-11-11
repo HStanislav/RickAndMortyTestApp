@@ -8,46 +8,30 @@
 import UIKit
 import ComposableArchitecture
 
-/*struct CharacterState: Equatable, Identifiable {
+struct CharacterModelState: Equatable, Identifiable {
     
-    let id: String
-
-    let name: String
-
-    let status: String
- 
-    let species: String
-   
-    let type: String
-
-    let gender: String
+    let charactedModel:СharacterModel
     
-    let imageURL: String
+    var id: String {
+        return charactedModel.id
+    }
+    var image: UIImage?
     
-    var image: UIImage
- 
-    let origin: Location
-
-    let location: Location
-
-    let episode: [Episode]
-    
-    let created: String
-    
-}*/
+}
 
 @Reducer
 struct CharacterInfoFeature {
     @ObservableState
     struct State {
         var characterId:String
-        var character:СharacterModel?
+        var characterState:CharacterModelState?
         var isLoading: Bool = false
     }
     
     enum Action {
         case start
         case sendResponse(OperationResult<СharacterModel>)
+        case imageLoaded(image: UIImage?)
     }
     
     @Dependency(\.repository) var repository
@@ -76,9 +60,17 @@ struct CharacterInfoFeature {
                 state.isLoading = false
                 switch result {
                 case .success(let characterModel):
-                    state.character = characterModel
+                    state.characterState = CharacterModelState(charactedModel: characterModel)
+                    return .run { send in
+                        let image = await imageLoader.loadImage(from: characterModel.image)
+                        await send(.imageLoaded(image: image))
+                    }
                 case .failed(_):
                     break
+                }
+            case .imageLoaded(image: let image):
+                if let image = image {
+                    state.characterState?.image = image
                 }
             }
             return .none

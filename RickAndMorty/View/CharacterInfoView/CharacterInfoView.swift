@@ -13,37 +13,56 @@ struct CharacterInfoView: View {
     var store: StoreOf<CharacterInfoFeature>
     
     var body: some View {
-        VStack {
-            if let character = store.character {
-                HStack {
-                    Text("name : ")
-                    Text(character.name)
+        WithPerceptionTracking {
+            VStack {
+                if let characterState = store.characterState {
+                    
+                    if let image = characterState.image {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 300)
+                    } else {
+                        ProgressView()
+                            .frame(width: 300, height: 300)
+                    }
+                    
+                    
+                    let columns = [
+                        GridItem(.fixed(200), alignment: .trailing),
+                        GridItem(.fixed(200), alignment: .leading)
+                    ]
+                    
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
+                        Text("name : ")
+                        Text(characterState.charactedModel.name)
+                        Text("gender : ")
+                        Text(characterState.charactedModel.gender)
+                        Text("species : ")
+                        Text(characterState.charactedModel.species)
+                        Text("status : ")
+                        Text(characterState.charactedModel.status)
+                        Text("type : ")
+                        Text(characterState.charactedModel.type)
+                        Text("origin : ")
+                        Text(characterState.charactedModel.origin.name)
+                        Text("location : ")
+                        Text(characterState.charactedModel.location.name)
+                    }
+                    .frame(width: 400)
+                    
+                    List(characterState.charactedModel.episode) { episode in
+                        LazyVStack {
+                            EpisodeCell(episode: episode)
+                        }
+                    }
+                    
                 }
                 
-                HStack {
-                    Text("gender : ")
-                    Text(character.gender)
-                }
-                
-                HStack {
-                    Text("species : ")
-                    Text(character.species)
-                }
-                
-                HStack {
-                    Text("status : ")
-                    Text(character.status)
-                }
-                
-                HStack {
-                    Text("type : ")
-                    Text(character.type)
-                }
             }
-            
-        }
-        .onAppear {
-            store.send(.start)
+            .onAppear {
+                store.send(.start)
+            }
         }
     }
 }
