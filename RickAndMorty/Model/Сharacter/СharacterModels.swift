@@ -4,7 +4,7 @@
 //
 //  Created by Стас Гринорьев on 07.11.2024.
 //
-import Foundation
+import UIKit
 import RickAndMortyGraphQLSchema
 
 

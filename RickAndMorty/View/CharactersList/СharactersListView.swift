@@ -17,7 +17,7 @@ struct CharactersListView: View {
             
             List(store.characters) { character in
                 LazyVStack {
-                    CharacterCell(character: character)
+                    CharacterCell(characterState: character)
                         .frame(height: 90)
                         .onTapGesture {
                             store.send(.characterButtonTapped(character))

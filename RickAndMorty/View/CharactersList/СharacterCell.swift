@@ -9,11 +9,11 @@ import SwiftUI
 
 struct CharacterCell: View {
     
-    let character:CharacterRepresentationState
+    let characterState:CharacterRepresentationState
     
     var body: some View {
         HStack {
-            if let image = character.image {
+            if let image = characterState.image {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -22,7 +22,7 @@ struct CharacterCell: View {
             }
             
             Spacer()
-            Text(character.name)
+            Text(characterState.characterRepresentation.name)
             Spacer()
         }
     }
@@ -30,5 +30,5 @@ struct CharacterCell: View {
 
 #Preview {
     
-    CharacterCell(character: CharacterRepresentationState(id: "id", name: "name", imageURL: ""))
+    CharacterCell(characterState: CharacterRepresentationState(characterRepresentation: СharacterRepresentation(data: [:])))
 }

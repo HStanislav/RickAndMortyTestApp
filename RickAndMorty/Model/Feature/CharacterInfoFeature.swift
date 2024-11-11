@@ -5,8 +5,36 @@
 //  Created by Стас Гринорьев on 08.11.2024.
 //
 
-import Foundation
+import UIKit
 import ComposableArchitecture
+
+/*struct CharacterState: Equatable, Identifiable {
+    
+    let id: String
+
+    let name: String
+
+    let status: String
+ 
+    let species: String
+   
+    let type: String
+
+    let gender: String
+    
+    let imageURL: String
+    
+    var image: UIImage
+ 
+    let origin: Location
+
+    let location: Location
+
+    let episode: [Episode]
+    
+    let created: String
+    
+}*/
 
 @Reducer
 struct CharacterInfoFeature {
@@ -23,6 +51,7 @@ struct CharacterInfoFeature {
     }
     
     @Dependency(\.repository) var repository
+    @Dependency(\.imageLoader) var imageLoader
     
     private var coordinator: CharacterInfoCoordinator?
     

@@ -9,11 +9,12 @@ import UIKit
 import SwiftUI
 import ComposableArchitecture
 
-
 struct CharacterRepresentationState: Equatable, Identifiable {
-    let id: String
-    var name: String
-    let imageURL:String
+    
+    let characterRepresentation: СharacterRepresentation
+    var id:String {
+        return characterRepresentation.id
+    }
     var image: UIImage?
 }
 
@@ -73,7 +74,7 @@ struct СharactersListFeature {
                     if state.totalPages == nil {
                         state.totalPages = pagesCount
                     }
-                    let charactersStates = characters.map { CharacterRepresentationState(id: $0.id, name: $0.name, imageURL: $0.imageURL, image: nil) }
+                    let charactersStates = characters.map { CharacterRepresentationState(characterRepresentation: $0, image: nil) }
                     state.characters.append(contentsOf: charactersStates)
                     state.nextPage += 1
                 default:
@@ -94,7 +95,7 @@ struct СharactersListFeature {
                     if didScrollToBottom {
                         await send(.didScrollToBottom)
                     }
-                    let image = await imageLoader.loadImage(from: character.imageURL)
+                    let image = await imageLoader.loadImage(from: character.characterRepresentation.imageURL)
                     await send(.imageLoaded(id: id, image: image))
                 }
             case .characterButtonTapped(let character):
